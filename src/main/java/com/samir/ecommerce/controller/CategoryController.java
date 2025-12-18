@@ -5,6 +5,9 @@ import com.samir.ecommerce.dto.CategoryDto.CategoryResponse;
 import com.samir.ecommerce.service.CategoryService.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,12 +29,15 @@ public class CategoryController {
         CategoryResponse categoryResponse = categoryService.createCategory(categoryRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(categoryResponse);
     }
+
     @GetMapping
-    public ResponseEntity<List<CategoryResponse>> getAllCategory()
+    public ResponseEntity<Page<CategoryResponse>> getAllCategory(@PageableDefault(size =10,sort ="id" ) Pageable pageable)
     {
-        List<CategoryResponse> categoryResponses = categoryService.getAllCategory();
+        Page<CategoryResponse> categoryResponses = categoryService.getAllCategory(pageable);
         return ResponseEntity.ok(categoryResponses);
     }
+
+
     @GetMapping("/categoryId/{categoryId}")
     public ResponseEntity<CategoryResponse> getById(@PathVariable("categoryId") Long categoryId)
     {

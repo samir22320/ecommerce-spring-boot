@@ -42,7 +42,7 @@ public class WebSecurityConfig {
                                 .requestMatchers(HttpMethod.PUT, "/api/products/**").hasRole("ADMIN")
                                 .requestMatchers(HttpMethod.DELETE, "/api/products/**").hasRole("ADMIN")
                                 .requestMatchers("/api/cart/**").hasRole("USER")
-                                .requestMatchers("/api/orders/**").hasRole("USER")
+                                .requestMatchers("/api/orders/**").hasAnyRole("USER","ADMIN")
                                 .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

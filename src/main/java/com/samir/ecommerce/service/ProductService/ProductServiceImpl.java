@@ -9,6 +9,8 @@ import com.samir.ecommerce.mapper.ProductMapper;
 import com.samir.ecommerce.repository.CategoryRepository;
 import com.samir.ecommerce.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.security.PublicKey;
@@ -39,12 +41,6 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public List<ProductResponse> getAllProduct() {
-        List<Product> products = productRepository.findAll();
-        return productMapper.toResponses(products);
-    }
-
-    @Override
     public ProductResponse getProductById(Long productId) {
         Product product = productRepository.findById(productId).orElseThrow(
                 ()-> new ResourceNotFoundException
@@ -68,21 +64,25 @@ public class ProductServiceImpl implements ProductService{
     }
 
     @Override
-    public List<ProductResponse> getByCategoryId(Long categoryId) {
-        categoryRepository.findById(categoryId).orElseThrow(
-                ()-> new ResourceNotFoundException
-                        ("Category id Not found  " +categoryId));
-        List<Product> products = productRepository.findAllByCategoryId(categoryId);
-        return productMapper.toResponses(products);
-
-    }
-
-    @Override
     public void deleteProductById(Long productId) {
         Product product  = productRepository.findById(productId).orElseThrow(
                 ()-> new ResourceNotFoundException
                         ("Product id Not found  " + productId));
         productRepository.delete(product);
+    }
+
+    @Override
+    public Page<ProductResponse> getAllProduct(Pageable pageable) {
+        Page<Product> products = productRepository.findAll(pageable);
+        return products.map(productMapper::toResponse);
+    }
+
+    @Override
+    public Page<ProductResponse> getByCategoryId(Long categoryId, Pageable pageable) {
+        categoryRepository.findById(categoryId).orElseThrow(
+                () -> new ResourceNotFoundException("Category Id Not found"));
+        Page<Product> products = productRepository.findAllByCategoryId(categoryId,pageable);
+        return products.map(productMapper::toResponse);
     }
 
 }

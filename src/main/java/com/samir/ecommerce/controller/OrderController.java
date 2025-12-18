@@ -3,6 +3,8 @@ package com.samir.ecommerce.controller;
 import com.samir.ecommerce.dto.OrderDto.OrderResponse;
 import com.samir.ecommerce.service.OrderService.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,9 +30,15 @@ public class OrderController {
         return ResponseEntity.ok(orderResponse);
     }
 
+//    @GetMapping("/userId/{userId}")
+//    public ResponseEntity<List<OrderResponse>> getUserOrders(@PathVariable("userId") Long userId) {
+//        List<OrderResponse> orderResponses = orderService.getUserOrders(userId);
+//        return ResponseEntity.ok(orderResponses);
+//    }
     @GetMapping("/userId/{userId}")
-    public ResponseEntity<List<OrderResponse>> getUserOrders(@PathVariable("userId") Long userId) {
-        List<OrderResponse> orderResponses = orderService.getUserOrders(userId);
+    public ResponseEntity<Page<OrderResponse>> getUserOrders(@PathVariable("userId") Long userId, Pageable pageable)
+    {
+        Page<OrderResponse> orderResponses = orderService.getUserOrders(userId,pageable);
         return ResponseEntity.ok(orderResponses);
     }
 

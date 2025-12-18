@@ -7,6 +7,10 @@ import com.samir.ecommerce.execption.ResourceNotFoundException;
 import com.samir.ecommerce.mapper.CategoryMapper;
 import com.samir.ecommerce.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,11 +37,12 @@ public class CategoryServiceImpl implements CategoryService{
         return categoryMapper.toResponse(category);
     }
 
-    @Override
-    public List<CategoryResponse> getAllCategory() {
-        List<Category> categories = categoryRepository.findAll();
-        return categoryMapper.toResponses(categories);
-    }
+
+
+
+
+
+
 
     @Override
     public CategoryResponse getById(Long categoryId) {
@@ -68,6 +73,12 @@ public class CategoryServiceImpl implements CategoryService{
         Category category =categoryRepository.findById(categoryId).orElseThrow(
                 () -> new ResourceNotFoundException("Category Id is not exist " + categoryId));
         categoryRepository.delete(category);
+    }
+
+    @Override
+    public Page<CategoryResponse> getAllCategory(Pageable pageable) {
+        Page<Category> categories = categoryRepository.findAll(pageable);
+        return categories.map(categoryMapper::toResponse);
     }
 
 

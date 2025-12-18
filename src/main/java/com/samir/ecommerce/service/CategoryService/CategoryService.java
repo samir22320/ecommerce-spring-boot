@@ -2,13 +2,13 @@ package com.samir.ecommerce.service.CategoryService;
 
 import com.samir.ecommerce.dto.CategoryDto.CategoryRequest;
 import com.samir.ecommerce.dto.CategoryDto.CategoryResponse;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface CategoryService {
     CategoryResponse createCategory(CategoryRequest categoryRequest);
 
-    List<CategoryResponse> getAllCategory();
+
 
     CategoryResponse getById(Long categoryId);
 
@@ -18,4 +18,7 @@ public interface CategoryService {
     CategoryResponse updateById(Long categoryId, CategoryRequest categoryRequest);
 
     void deleteById(Long categoryId);
+
+
+    Page<CategoryResponse> getAllCategory(Pageable pageable);
 }

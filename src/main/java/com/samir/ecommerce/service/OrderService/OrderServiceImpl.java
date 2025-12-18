@@ -7,6 +7,8 @@ import com.samir.ecommerce.execption.ResourceNotFoundException;
 import com.samir.ecommerce.mapper.OrderMapper;
 import com.samir.ecommerce.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -70,10 +72,16 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public List<OrderResponse> getUserOrders(Long userId) {
-        List<Order> orders = orderRepository.findByUserId(userId);
-        return orders.stream().map(orderMapper::toOrderResponse)
-                .toList();
+    public Page<OrderResponse> getUserOrders(Long userId, Pageable pageable) {
+        Page<Order> orders = orderRepository.findById(userId,pageable);
+        return orders.map(orderMapper::toOrderResponse);
     }
+
+//    @Override
+//    public List<OrderResponse> getUserOrders(Long userId) {
+//        List<Order> orders = orderRepository.findByUserId(userId);
+//        return orders.stream().map(orderMapper::toOrderResponse)
+//                .toList();
+//    }
 
 }
