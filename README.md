@@ -14,6 +14,7 @@ The system provides secure, scalable REST APIs for managing users, products, cat
 - Order creation from cart
 - Secure APIs using Spring Security
 - Clean layered architecture
+- Implemented pagination and sorting using Spring Data Pageable
 - DTOs & Mappers (no entity exposure)
 - Global exception handling & validation
 
@@ -133,7 +134,6 @@ Product reviews & ratings
 
 Wishlist feature
 
-Pagination & filtering
 
 Payment integration
 
