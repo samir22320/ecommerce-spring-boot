@@ -31,6 +31,11 @@ The system provides secure, scalable REST APIs for managing users, products, cat
   - **ADMIN**: manage products & categories
 
 ---
+## 🐳 Docker Support
+
+This project is fully dockerized using Docker and Docker Compose.
+
+### Run the application using Docker
 
 ## 🧱 Architecture
 
@@ -94,6 +99,7 @@ Each layer has a single responsibility to ensure maintainability and scalability
 - View user orders
 
 ---
+
 
 ## 🔗 API Security Rules
 
